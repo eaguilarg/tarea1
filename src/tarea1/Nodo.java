@@ -30,6 +30,7 @@ class Nodo<T> {
         return elemento;
     }
     
+    
     //toString
    public String toString(){
        StringBuilder sb=new StringBuilder();

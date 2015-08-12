@@ -18,11 +18,13 @@ public class Lista<T> {
         contador=0;
     }
     
-    public void insertaInicio(Nodo <T> elem){
-      Nodo<T> temporal=cabeza.getSiguiente();
-      cabeza.setSiguiente(elem);
-      elem.setSiguiente(temporal);
-                       
+      public void insertaInicio(T elem){
+        Nodo<T> nuevo=new Nodo(elem);
+        Nodo<T> temp=cabeza.getSiguiente();
+        
+        cabeza.setSiguiente(nuevo);
+        nuevo.setSiguiente(temp);
+        contador++;
     }
     
     //iterativo
@@ -55,6 +57,23 @@ public class Lista<T> {
         actual.setSiguiente(null);//actual.next=null;
     }
     
+     public void invertirLista2(){
+      Nodo<T> aux=cabeza.getSiguiente();
+      Stack<T> pila=new Stack();
+      while(aux!=null){
+          pila.push(aux.getElemento());
+          aux=aux.getSiguiente();
+      }
+      
+      aux=cabeza.getSiguiente();
+      while(!pila.isEmpty()){
+          aux.setElemento(pila.pop());
+          aux=aux.getSiguiente();
+      }
+     
+  }
+    
+    
     //invertir recursivo
     public Nodo<T> invertirR(Nodo<T> actual){
          if(actual!=null){
@@ -69,33 +88,78 @@ public class Lista<T> {
       return actual;
   }
     
-    public int sumarElem( Nodo<T> elem,int n,int suma){
-        if(n==0 && null==elem.getSiguiente())
+    public int sumarElem( Nodo<Integer> elem,int n,int suma){
+        if(n==0)
             return suma;
         else
-            return sumarElem( Nodo<T> elem.getSiguiente(),int n--,int suma+elem.getElemento())+ elem.getElemento() ;
+            return sumarElem( elem.getSiguiente(),n--, suma)+ elem.getElemento()  ;
     }
     
    
-    public  String borrar(Nodo<T> elem) throws Unchecked {
+    public  String borrar(T elem) throws Unchecked {
         Nodo<T> aux = cabeza;
-        while(aux.getSiguiente()!=elem ){
+        while(aux.getSiguiente().getElemento()!=elem && aux.getSiguiente()==null ){
          aux=aux.getSiguiente();
-         if(aux.getSiguiente()==null)
+        }
+         if(aux.getSiguiente()==null){
               new Unchecked("No existe el elemento");
         }
-        contador--;
+         else
+             aux.setSiguiente(aux.getSiguiente().getSiguiente());
+             contador--;
                       
         return elem.toString();
       }
     
     
-    public String borrarR(Nodo<T> elem){
+     
+    
+    public String borrarR(Nodo<T> elem, Nodo<T> actual){
+        
+        if(actual.getSiguiente()==null)
+            return "no existe";
+        if(actual.getSiguiente()==elem)
+            return borrar(elem.getElemento());
+        else
+            return borrarR( elem, actual.getSiguiente());
         
     }
     
         
+  public void imprimeLista(){
+        Nodo<T> temp=cabeza.getSiguiente();
+        
+        while(temp!=null){
+            System.out.print(""+temp.toString());
+            System.out.print("↓"+"\n");
+            temp=temp.getSiguiente();
+        }
+        System.out.println(""+"null");
     }
+  
+  
+    public static void main(String args[]){
+        Lista <Integer> lista=new Lista();
+ 
+     lista.insertaInicio(1);
+     lista.insertaInicio(2);
+     lista.insertaInicio(3);
+         
+     lista.imprimeLista();
+   
+     lista.invertirLista2();
+     lista.imprimeLista();
+     
+     //lista.invertirR(lista.cabeza.getSiguiente());
+     //lista.imprimeLista();
+     
+     System.out.println(lista.sumarElem(lista.cabeza.getSiguiente(), lista.contador, 0));
+     
+    }
+    
+        
+    }
+
     
     
     
