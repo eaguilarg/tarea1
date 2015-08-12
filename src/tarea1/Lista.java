@@ -1,4 +1,5 @@
 
+
 package tarea1;
 
 import java.util.Stack;
@@ -116,12 +117,20 @@ public class Lista<T> {
     }
     */
     
-    public int sumarElem( Nodo<Integer> elem,int n,int suma){
-        if(n==0)
-            return suma;
+    public int sumarElem( Nodo<Integer> elem){
+        if(elem.getSiguiente()==null)
+            return elem.getElemento();
         else
-            return elem.getElemento()+sumarElem( elem.getSiguiente(),n--, suma);
+            return elem.getElemento()+sumarElem( elem.getSiguiente());
     }
+    
+    public int sumar2(Nodo<Integer> elem, int suma){
+        if(elem==null)
+            return suma;
+        return sumar2(elem.getSiguiente(),suma+elem.getElemento());
+    }
+    
+      
     
    
     public  String borrar(T elem) throws Unchecked {
@@ -139,18 +148,32 @@ public class Lista<T> {
         return elem.toString();
       }
     
-    
-     
-    
-    public String borrarR(Nodo<T> elem, Nodo<T> actual){
-        
+       
+    public T borrarR(T elem, Nodo<T> actual){
+       
         if(actual.getSiguiente()==null)
-            return "no existe";
-        if(actual.getSiguiente()==elem)
-            return borrar(elem.getElemento());
+            return null;
+        if(actual.getSiguiente().getElemento().equals(elem)){
+            actual.getSiguiente().setSiguiente(actual.getSiguiente().getSiguiente());
+        return elem;
+        }
         else
             return borrarR( elem, actual.getSiguiente());
         
+    }
+    
+    
+    //funcion bien profe
+    public boolean remove(Nodo<T> n, T elem){
+        boolean resp=false;
+        if(n==null)
+            return false;
+        if(n.getElemento().equals(elem))
+            return true;
+        resp= remove(n.getSiguiente(), elem);
+        if(resp)
+            n.setSiguiente(n.getSiguiente().getSiguiente());
+        return false;
     }
     
         
@@ -169,19 +192,20 @@ public class Lista<T> {
     public static void main(String args[]){
         Lista <Integer> lista=new Lista();
  
-     lista.insertaInicio(1);
-     lista.insertaInicio(2);
      lista.insertaInicio(3);
-         
+     lista.insertaInicio(2);
+     lista.insertaInicio(1);
      lista.imprimeLista();
    
-  
-     
-     lista.invertirR(lista.cabeza.getSiguiente());
+   
+     //lista.invertirR(lista.cabeza.getSiguiente());
+     //lista.imprimeLista();
+    
+     lista.remove(lista.cabeza.getSiguiente(), 3);
      lista.imprimeLista();
     
      
-     System.out.println(lista.sumarElem(lista.cabeza, lista.contador, 0));
+     System.out.println(lista.sumar2(lista.cabeza.getSiguiente(),0));
      
     }
     
