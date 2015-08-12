@@ -76,8 +76,7 @@ public class Lista<T> {
     
     //invertir recursivo
     public Nodo<T> invertirR(Nodo<T> actual){
-         if(actual!=null){
-          
+         if(actual.getSiguiente()!=null){
             Nodo<T> temp=invertirR(actual.getSiguiente()); 
             temp.setSiguiente(actual);
             actual.setSiguiente(null);
@@ -88,11 +87,40 @@ public class Lista<T> {
       return actual;
   }
     
+    
+    
+    /*
+    public Nodo<T> invierte(Nodo<T> actual){
+        if(actual.getSiguiente()==null){
+            cabeza.getSiguiente()=actual;
+        return actual;
+        }
+        else
+             Nodo<T> temp= inviertes(actual.getSiguiente());
+             temp.getSiguiente()=actual;
+            return actual;
+    } 
+    private Nodo<T> inviertes(Nodo<T> actual){
+        
+        Stack pila = new Stack();
+        while(actual!=null){
+            pila.push(actual);
+            actual=actual.getSiguiente();
+        }
+        actual=cabeza;
+        while(!pila.isEmpty()){
+           actual.getSiguiente()= (Nodo<T>)pila.pop();
+            actual=actual.getSiguiente();
+        }
+        actual.getSiguiente()=null;
+    }
+    */
+    
     public int sumarElem( Nodo<Integer> elem,int n,int suma){
         if(n==0)
             return suma;
         else
-            return sumarElem( elem.getSiguiente(),n--, suma)+ elem.getElemento()  ;
+            return elem.getElemento()+sumarElem( elem.getSiguiente(),n--, suma);
     }
     
    
@@ -147,13 +175,13 @@ public class Lista<T> {
          
      lista.imprimeLista();
    
-     lista.invertirLista2();
+  
+     
+     lista.invertirR(lista.cabeza.getSiguiente());
      lista.imprimeLista();
+    
      
-     //lista.invertirR(lista.cabeza.getSiguiente());
-     //lista.imprimeLista();
-     
-     System.out.println(lista.sumarElem(lista.cabeza.getSiguiente(), lista.contador, 0));
+     System.out.println(lista.sumarElem(lista.cabeza, lista.contador, 0));
      
     }
     
